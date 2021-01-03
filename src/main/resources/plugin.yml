@@ -1,0 +1,27 @@
+name: DiscordX
+version: 1.0.0
+main: org.harrydev.discordx.DiscordX
+authors: [ harrydev, Jpuf ]
+description: A plugin to link your Minecraft Server to Discord
+website: https://harrydev.tech
+
+commands:
+  discord:
+    description: Creates and stores an invite to the discord server
+    usage: /discord
+    permission: discordx.discord
+  discordx:
+    description: Sends a Command list in console
+    usage: /discordx
+    permission: discordx.about
+  dxdebug:
+    description: Sends a Command list in console
+    usage: /debug
+    permission: discordx.about
+permissions:
+  discordx.discord:
+    default: true
+  discordx.about:
+    default: true
+  discordx.debug:
+    default: true
