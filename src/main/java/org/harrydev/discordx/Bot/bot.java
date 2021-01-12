@@ -54,7 +54,7 @@ public class bot {
                         embed.addField("__Github repo:__", "https://github.com/hwalker928/DiscordX", false);
                         help.getChannel().sendMessage(embed.build()).queue();
                     }
-            ).addCommand(new TestCommand()).build();
+            ).build();
             commandmananger = commandClient;
             jdaBuilder.addEventListeners(new DiscordMessage());
             jdaBuilder.addEventListeners(commandClient);
