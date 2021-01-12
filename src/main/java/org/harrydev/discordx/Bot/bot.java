@@ -19,6 +19,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -39,9 +40,19 @@ public class bot {
         JDABuilder jdaBuilder = JDABuilder.createDefault(Token);
 
         try {
-            CommandClient commandClient = new CommandClientBuilder().setPrefix("dx!").setConsumer(
+            CommandClient commandClient = new CommandClientBuilder().setPrefix(prefix).setConsumer(
                     help -> {
-                        help.getChannel().sendMessage("Bot Help!").queue();
+                        StringBuilder commands = new StringBuilder();
+                        bot.getListeners().forEach(listener -> {
+                            commands.append("`" + listener.getClass().getSimpleName().replaceAll("Command", "") + "`\n");
+                        });
+                        EmbedBuilder embed = new EmbedBuilder();
+                        embed.setTitle("About DiscordX").setColor(Color.ORANGE);
+                        embed.setDescription("DiscordX is a Spigot plugin that connects Discord to Minecraft.");
+                        embed.addField("__Commands:__", commands.toString(), false);
+                        embed.addField("__Spigot resource:__", "https://example.com", false);
+                        embed.addField("__Github repo:__", "https://github.com/hwalker928/DiscordX", false);
+                        help.getChannel().sendMessage(embed.build()).queue();
                     }
             ).addCommand(new TestCommand()).build();
             commandmananger = commandClient;
@@ -122,7 +133,6 @@ public class bot {
         return Arrays.asList(
                 new PingCommand(),
                 new ServerCommand(),
-                new HelpCommand(),
                 new WhitelistCommand(),
                 new ListCommand()
         );

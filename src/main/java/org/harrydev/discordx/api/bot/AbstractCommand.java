@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public abstract class AbstractCommand {
     protected String name;
     protected String args;
+    protected Boolean use_args;
 
     public abstract void execute(MessageReceivedEvent event,String args);
     public String getName()
@@ -15,4 +16,5 @@ public abstract class AbstractCommand {
     {
         return this.args;
     }
+    public Boolean canuseArgs(){return this.use_args;}
 }

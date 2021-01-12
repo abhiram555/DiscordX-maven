@@ -63,10 +63,11 @@ public class CommandClientImpl extends CommandClient {
         {
             if(command.getName().equals(name))
             {
-                if(!command.getArgs().contains(args) || args.isEmpty())
-                {
-                    event.getChannel().sendMessage("Invalid Use of command! Correct Usage " + prefix + command.getName() + " " + command.getArgs()).queue();
-                    return;
+                if(command.canuseArgs()) {
+                    if (!command.getArgs().contains(args) || args.isEmpty()) {
+                        event.getChannel().sendMessage("Invalid Use of command! Correct Usage " + prefix + command.getName() + " " + command.getArgs()).queue();
+                        return;
+                    }
                 }
                 command.execute(event,args);
             }

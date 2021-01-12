@@ -15,6 +15,9 @@ public class TestCommand extends AbstractCommand {
         this.name = "test";
         // Args of your command
         this.args = "[name]";
+
+        // can use args for this command or not
+        this.use_args = true;
     }
 
     @Override
