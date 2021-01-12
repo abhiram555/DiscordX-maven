@@ -1,5 +1,5 @@
 # DiscordX-maven
-Hi, this is a fork of DiscordX plugin i build.
+Hi, this is a fork of DiscordX plugin that i build.
 
 
 # What are the futures for this fork?
