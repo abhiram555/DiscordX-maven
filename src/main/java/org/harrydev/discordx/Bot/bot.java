@@ -13,6 +13,7 @@ import org.harrydev.discordx.Utils.Logger;
 import org.harrydev.discordx.api.CommandClient;
 import org.harrydev.discordx.api.CommandClientBuilder;
 import org.harrydev.discordx.api.CommandClientImpl;
+import org.harrydev.discordx.api.bot.AbstractCommand;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -46,13 +47,18 @@ public class bot {
                         bot.getListeners().forEach(listener -> {
                             commands.append("`" + listener.getClass().getSimpleName().replaceAll("Command", "") + "`\n");
                         });
+
+                        for(AbstractCommand command : help.getCommands())
+                        {
+                            commands.append("`" + command.getName() + " " + command.getArgs() + "`\n");
+                        }
                         EmbedBuilder embed = new EmbedBuilder();
                         embed.setTitle("About DiscordX").setColor(Color.ORANGE);
                         embed.setDescription("DiscordX is a Spigot plugin that connects Discord to Minecraft.");
                         embed.addField("__Commands:__", commands.toString(), false);
                         embed.addField("__Spigot resource:__", "https://example.com", false);
                         embed.addField("__Github repo:__", "https://github.com/hwalker928/DiscordX", false);
-                        help.getChannel().sendMessage(embed.build()).queue();
+                        help.getEvent().getChannel().sendMessage(embed.build()).queue();
                     }
             ).build();
             commandmananger = commandClient;

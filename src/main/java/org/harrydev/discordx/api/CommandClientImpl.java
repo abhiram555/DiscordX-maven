@@ -10,9 +10,9 @@ import java.util.function.Consumer;
 public class CommandClientImpl extends CommandClient {
     private ArrayList<AbstractCommand> commands;
     private String prefix;
-    private Consumer<MessageReceivedEvent> consumer;
+    private Consumer<Help> consumer;
 
-    public CommandClientImpl(ArrayList<AbstractCommand> commands,String prefix,Consumer<MessageReceivedEvent> consumer)
+    public CommandClientImpl(ArrayList<AbstractCommand> commands,String prefix,Consumer<Help> consumer)
     {
         this.commands = commands;
         this.prefix = prefix;
@@ -50,7 +50,7 @@ public class CommandClientImpl extends CommandClient {
                 {
                     return;
                 }
-                consumer.accept(event);
+                consumer.accept(new Help(event,commands));
             }
 
             invokeCommand(name,event,args);

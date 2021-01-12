@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public class CommandClientBuilder {
     private ArrayList<AbstractCommand> commands = new ArrayList<>();
     private String prefix;
-    private Consumer<MessageReceivedEvent> consumer;
+    private Consumer<Help> consumer;
 
     public CommandClient build()
     {
@@ -28,7 +28,7 @@ public class CommandClientBuilder {
         return this;
     }
 
-    public CommandClientBuilder setConsumer(Consumer<MessageReceivedEvent> consumer)
+    public CommandClientBuilder setConsumer(Consumer<Help> consumer)
     {
         this.consumer = consumer;
         return this;
