@@ -4,11 +4,15 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.harrydev.discordx.Bot.Commands.*;
 import org.harrydev.discordx.Bot.Events.DiscordMessage;
 import org.harrydev.discordx.DiscordX;
 import org.harrydev.discordx.Utils.Logger;
+import org.harrydev.discordx.api.CommandClient;
+import org.harrydev.discordx.api.CommandClientBuilder;
+import org.harrydev.discordx.api.CommandClientImpl;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -25,6 +29,7 @@ public class bot {
     private static JDA jda;
     private static final String prefix = INSTANCE.getConfig().getString("botPrefix");
     public static boolean tokenIsValid;
+    private static CommandClient commandmananger;
 
     public static void Start() {
         if(!CheckToken(Token)) {
@@ -34,7 +39,14 @@ public class bot {
         JDABuilder jdaBuilder = JDABuilder.createDefault(Token);
 
         try {
+            CommandClient commandClient = new CommandClientBuilder().setPrefix("dx!").setConsumer(
+                    help -> {
+                        help.getChannel().sendMessage("Bot Help!").queue();
+                    }
+            ).addCommand(new TestCommand()).build();
+            commandmananger = commandClient;
             jdaBuilder.addEventListeners(new DiscordMessage());
+            jdaBuilder.addEventListeners(commandClient);
             getListeners().forEach(jdaBuilder::addEventListeners);
             jdaBuilder.setActivity(Activity.playing("Minecraft"));
             jda = jdaBuilder.build();
@@ -63,6 +75,13 @@ public class bot {
 
     public static void SendStartup() {
         EmbedBuilder eb = new EmbedBuilder().setDescription("Server started!").setColor(Color.GREEN);
+        TextChannel channel = jda.getTextChannelById(INSTANCE.getConfig().getLong("chatChannel"));
+
+        if(channel == null)
+        {
+            INSTANCE.getLogger().info("Unable to send startup message, chat channel is wrong");
+            return;
+        }
         Objects.requireNonNull(jda.getTextChannelById(INSTANCE.getConfig().getLong("chatChannel"))).sendMessage(eb.build()).queue();
     }
 
@@ -95,6 +114,10 @@ public class bot {
         return true;
     }
 
+    public static CommandClient getCommandClient()
+    {
+        return commandmananger;
+    }
     public static List<ListenerAdapter> getListeners() {
         return Arrays.asList(
                 new PingCommand(),

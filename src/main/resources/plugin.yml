@@ -1,7 +1,7 @@
 name: DiscordX
-version: 1.0.0
+version: 1.2.0
 main: org.harrydev.discordx.DiscordX
-authors: [ harrydev, Jpuf ]
+authors: [ harrydev, Jpuf , abhiram]
 description: A plugin to link your Minecraft Server to Discord
 website: https://harrydev.tech
 

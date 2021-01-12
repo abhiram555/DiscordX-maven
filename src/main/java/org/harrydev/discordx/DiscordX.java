@@ -2,9 +2,9 @@ package org.harrydev.discordx;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.harrydev.discordx.Bot.Commands.TestCommand;
 import org.harrydev.discordx.Bot.bot;
 import org.harrydev.discordx.Commands.AbstractCommand;
 import org.harrydev.discordx.Commands.commands.DxdebugCommand;
@@ -35,7 +35,7 @@ public final class DiscordX extends JavaPlugin {
         if(!bot.tokenIsValid) {
             Logger.warn("Aborting...");
         }
-        api = new API(bot.getBot());
+        api = new API(bot.getBot(),bot.getCommandClient());
         Bukkit.getServicesManager().register(DiscordXAPI.class,api,this, ServicePriority.Highest);
         EventManager.register();
         this.getCommands().forEach(AbstractCommand::register);
